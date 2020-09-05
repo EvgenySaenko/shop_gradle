@@ -32,11 +32,13 @@ public class ImageService {
         try {
             String imageName = getImageForSpecificProduct(UUID.fromString(id));
             Resource resource = new ClassPathResource("/static/images/" + imageName);
+            Resource resourceError = new ClassPathResource("/static/images/errorImage.png");
             if (resource.exists()) {
                 return ImageIO.read(resource.getFile());
             } else {
                 log.error("Image not found!");
-                throw new FileNotFoundException("File " + imageName + " not found!");
+                return  ImageIO.read(resourceError.getFile());
+               // throw new FileNotFoundException("File " + imageName + " not found!");
             }
         } catch (MalformedInputException | FileNotFoundException ex) {
             return null;
