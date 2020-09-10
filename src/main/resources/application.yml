@@ -2,6 +2,7 @@ server:
   servlet:
     context-path: /geekshop
 
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -12,3 +13,7 @@ spring:
     show-sql: true
   thymeleaf:
     cache: false
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
