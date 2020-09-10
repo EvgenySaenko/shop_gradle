@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="EN">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>OnlineShop</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <h1>Загрузить изображение</h1>
+    <br>
+<!--    при нажатии кнопки upload почему-то кидало localhost://8080/upload - пропускало geekshop
+                                        поэтому добавил и перенаправляет правильно, но не работает-->
+    <form  action="/geekshop/admin/upload" method="POST" enctype="multipart/form-data">
+        File to upload: <input type="file" name="imageFile" multiple>
+        <br/>
+        <input type="submit" value="Upload">
+        Press here to upload the file!
+    </form>
+</body>
+</html>

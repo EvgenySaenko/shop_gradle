@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import ru.geekbrains.shop.persistence.entities.Product;
 import ru.geekbrains.shop.services.ImageService;
 import ru.geekbrains.shop.services.ProductService;
 
@@ -32,8 +33,11 @@ public class ProductController {
 
     @GetMapping(value = "/{id}")
     public String getOne(Model model, @PathVariable String id) {
+//        Optional<Product>productOptional = productService.getOneById(UUID.fromString(id));
+//        productOptional.ifPresent(product -> model.addAttribute("product",product));
+        //можно кратко
         productService.getOneById(UUID.fromString(id))
-                .ifPresent(p -> model.addAttribute("product",p));
+                .ifPresent(product -> model.addAttribute("product",product));
         return "product";
     }
 
@@ -47,5 +51,8 @@ public class ProductController {
             throw new RuntimeException();
         }
     }
+
+
+
 
 }
