@@ -11,7 +11,6 @@ import ru.geekbrains.shop.persistence.entities.utils.PersistableEntity;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.OneToOne;
 
 @Data
 @Entity

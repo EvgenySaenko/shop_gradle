@@ -17,3 +17,9 @@ spring:
     multipart:
       max-file-size: 15MB
       max-request-size: 15MB
+files:
+  storepath:
+    icons: "F:\\Spring\\uploads\\icons"
+    images: "F:\\Spring\\uploads\\images"
+
+

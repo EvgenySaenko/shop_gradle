@@ -3,9 +3,14 @@ package ru.geekbrains.shop.persistence.entities;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
 import ru.geekbrains.shop.persistence.entities.utils.PersistableEntity;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Data
 @Entity
@@ -26,11 +31,10 @@ public class CartRecord extends PersistableEntity {
     @JoinColumn(name = "purchase")
     private Purchase purchase;
 
-    public CartRecord(Product product){
+    public CartRecord(Product product) {
         this.product = product;
         this.quantity = 1;
         this.price = product.getPrice();
     }
-
 
 }

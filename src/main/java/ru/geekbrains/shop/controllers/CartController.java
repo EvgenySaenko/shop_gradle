@@ -1,17 +1,22 @@
 package ru.geekbrains.shop.controllers;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import ru.geekbrains.shop.beans.Cart;
 import ru.geekbrains.shop.persistence.entities.Product;
 import ru.geekbrains.shop.services.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,7 +24,7 @@ import java.util.UUID;
 @RequestMapping("/cart")
 @RequiredArgsConstructor
 public class CartController {
-    //инжектим корзину и сервиспродуктов
+
     private final Cart cart;
     private final ProductService productService;
 
@@ -28,7 +33,6 @@ public class CartController {
         Optional<Product> productOptional = productService.getOneById(id);
         if (productOptional.isPresent()) {
             cart.add(productOptional.get());
-            //вернуть юзера на ту же страницу где он добавил товар
             response.sendRedirect(request.getHeader("referer"));
         }
     }
