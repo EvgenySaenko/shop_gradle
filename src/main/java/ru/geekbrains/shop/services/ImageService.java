@@ -12,8 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import ru.geekbrains.shop.dto.ReviewDto;
 import ru.geekbrains.shop.exceptions.UnsupportedMediaTypeException;
 import ru.geekbrains.shop.persistence.entities.Image;
+import ru.geekbrains.shop.persistence.entities.Product;
+import ru.geekbrains.shop.persistence.entities.Shopuser;
 import ru.geekbrains.shop.persistence.repositories.ImageRepository;
 import ru.geekbrains.shop.utils.Validators;
 
@@ -29,6 +32,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -45,20 +49,24 @@ public class ImageService {
     private final ImageRepository imageRepository;
 
     private String getImageForSpecificProduct(UUID id) {
-        return imageRepository.obtainImageNameByProduct(id);
+        return imageRepository.getImageNameByProduct(id);
+    }
+
+    private String getImageForSpecificReview(UUID id) {//ищем название картинки по id
+        return imageRepository.getImageNameByReview(id);
     }
 
     public BufferedImage loadFileAsResource(String id) {
-
         String imageName = null;
-
         try {
             Path filePath;
-
             if (Validators.isUUID(id)) {
-
-                imageName = getImageForSpecificProduct(UUID.fromString(id));
-
+                //если подали ай ди продукта
+                if (getImageForSpecificProduct(UUID.fromString(id)) != null){
+                    imageName = getImageForSpecificProduct(UUID.fromString(id));
+                }else if (getImageForSpecificReview(UUID.fromString(id)) != null){
+                    imageName = getImageForSpecificReview(UUID.fromString(id));
+                }
                 if (imageName != null) {
                     filePath = IMAGES_STORE_PATH.resolve(imageName).normalize();
                     log.info(filePath.toString());
@@ -66,20 +74,16 @@ public class ImageService {
                     imageName = "image_not_found.png";
                     filePath = ICONS_STORE_PATH.resolve(imageName).normalize();
                     log.info(filePath.toString());
-
                 }
             } else {
                 filePath = ICONS_STORE_PATH.resolve("cart.png").normalize();
                 log.info(filePath.toString());
-
             }
-
             if (filePath != null) {
                 return ImageIO.read(new UrlResource(filePath.toUri()).getFile());
             } else {
                 throw new IOException();
             }
-
         } catch (IOException ex) {
             log.error("Error! Image {} file wasn't found!", imageName);
             return null;
@@ -118,4 +122,19 @@ public class ImageService {
         }
     }
 
+    public String generateNameImage(ReviewDto reviewDto, Optional<Product> productOptional){
+        StringBuilder sb = new StringBuilder();
+        sb.append(productOptional.get().getTitle());
+        System.out.println(sb.toString() + " title");
+
+        String partIdProd = productOptional.get().getId().toString().substring(0,4);
+        System.out.println(partIdProd+ " - partIdProd");
+        sb.append(partIdProd);
+
+        String partCaptchaCode = reviewDto.getCaptchaCode();
+        System.out.println(partCaptchaCode + " - partCaptchaCode");
+        sb.append(partCaptchaCode);
+
+        return sb.toString();
+    }
 }

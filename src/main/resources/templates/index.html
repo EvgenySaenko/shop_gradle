@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="EN">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml" lang="EN">
 
 <head>
     <meta charset="utf-8"/>
@@ -31,7 +33,7 @@
                     <a class="nav-link" th:href="@{/cart}" th:text="Корзина">CART</a>
                 </div>
                 <div class="nav-item" th:action="@{/logout}" method="POST" >
-                    <button id="navLogout" class="btn btn-outline-warning" type="submit"  th:text="Выйти">EXIT</button>
+                    <button id="navLogout" class="btn btn-outline-warning" type="submit"  th:text="logout">EXIT</button>
                 </div>
             </div>
 

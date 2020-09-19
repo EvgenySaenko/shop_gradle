@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml" lang="EN">
     <head>
         <meta charset="utf-8"/>
         <title>OnlineShop</title>
@@ -10,6 +12,48 @@
     </head>
     <body>
         <div class="container">
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark  d-flex ">
+                <ul class="navbar-nav  flex-fill">
+                    <li class="nav-item ">
+                        <a class="nav-link" th:href="@{/}">Главная</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" th:href="@{/products/}">Товары</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/about}">О магазине</a>
+                    </li>
+                </ul>
+
+                <div class="navbar-nav " style="margin-left: auto;margin-right: 0px" sec:authorize="isAuthenticated()">
+                    <div class="nav-item ">
+                        <a class="nav-link" th:href="@{/profile}" th:text="Профиль">PROFILE</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" th:href="@{/cart}" th:text="Корзина">CART</a>
+                    </div>
+                    <div class="nav-item" th:action="@{/logout}" method="POST" >
+                        <button id="navLogout" class="btn btn-outline-warning" type="submit"  th:text="Выйти">EXIT</button>
+                    </div>
+                </div>
+
+                <div class="navbar-brand  flex-fill " sec:authorize="isAnonymous()">
+                    <form th:action="@{/authenticateTheUser}" method="POST" class="form-inline">
+                        <div class="row" style="margin-left: auto;margin-right: 0px">
+                            <div class="col-sm">
+                                <input type="text" name="username" placeholder="username" class="form-control">
+                            </div>
+                            <div class="col-sm">
+                                <input type="password" name="password" placeholder="password" class="form-control">
+                            </div>
+                            <div class="col-sm">
+                                <button type="submit" class="btn btn-success">вход</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
             <!--/*@thymesVar id="shopuser" type="ru.geekbrains.shop.persistence.entities.Shopuser"*/-->
             <h1>Профиль</h1>
             <h5 th:text="'Name: ' + ${shopuser.firstName}"/>
