@@ -12,11 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ru.geekbrains.shop.dto.ProductDto;
 import ru.geekbrains.shop.dto.ReviewDto;
-import ru.geekbrains.shop.exceptions.ProductNotFoundException;
 import ru.geekbrains.shop.persistence.entities.Image;
 import ru.geekbrains.shop.persistence.entities.Product;
 import ru.geekbrains.shop.persistence.entities.Review;
 import ru.geekbrains.shop.persistence.entities.Shopuser;
+import ru.geekbrains.shop.persistence.entities.enums.Role;
 import ru.geekbrains.shop.services.ImageService;
 import ru.geekbrains.shop.services.ProductService;
 import ru.geekbrains.shop.services.ReviewService;
@@ -52,8 +52,8 @@ public class ProductController {
 
 
 
-    @PostMapping
-    public String addOne(@RequestParam("image") MultipartFile image, ProductDto productDto) throws IOException {
+    @PostMapping//добавляет картинку при добавлении товара
+    public String addImageProduct(@RequestParam("image") MultipartFile image, ProductDto productDto) throws IOException {
         Image img = imageService.uploadImage(image, productDto.getTitle());
         productService.save(productDto, img);
         return "redirect:/products/";
@@ -85,10 +85,15 @@ public class ProductController {
         }
     }
 
-
+//    @PostMapping//добавляет картинку при добавлении товара
+//    public String addImageReview(@RequestParam("image") MultipartFile image, ReviewDto reviewDto) throws IOException {
+//        Image img = imageService.uploadImage(image, reviewDto.getId().toString());
+//        reviewService.save(reviewDto,img);
+//        return "redirect:/products/";
+//    }
 
     @PostMapping("/reviews")
-    public String addReview(ReviewDto reviewDto, HttpSession httpSession, Principal principal) {
+    public String addReview(@RequestParam("image") MultipartFile image, ReviewDto reviewDto, HttpSession httpSession, Principal principal) throws IOException {
 
         //чтобы проверить совпала ли каптча
         if (httpSession.getAttribute("captchaCode").equals(reviewDto.getCaptchaCode())){
@@ -96,27 +101,16 @@ public class ProductController {
         }else {
             System.out.println("FALSE");
         }
-
         Optional<Product> productOptional = productService.getOneById(reviewDto.getProductId());
         Optional<Shopuser> shopuserOptional = shopuserService.findByPhone(principal.getName());
 
-        Product product;
         //если существует продукт и юзер, то формируем ревью
         if (productOptional.isPresent() && shopuserOptional.isPresent()) {
-            product = productOptional.get();
-            Review review = Review.builder()
-                .commentary(reviewDto.getCommentary())
-                .product(product)
-                .shopuser(shopuserOptional.get())
-            .build();
-
-            reviewService.save(review);
-
-            return "redirect:/products/" + product.getId();
+            Image img = imageService.uploadImage(image, imageService.generateNameImage(reviewDto,productOptional));
+            reviewService.save(reviewDto,img,productOptional,shopuserOptional);
+            return "redirect:/products/" + productOptional.get().getId();
         }
-
         return "redirect:/";
-
     }
 
 }

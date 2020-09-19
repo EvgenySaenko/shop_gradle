@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import ru.geekbrains.shop.beans.Cart;
-import ru.geekbrains.shop.persistence.entities.Image;
 import ru.geekbrains.shop.services.ImageService;
 import ru.geekbrains.shop.services.ProductService;
 import ru.geekbrains.shop.services.ShopuserService;

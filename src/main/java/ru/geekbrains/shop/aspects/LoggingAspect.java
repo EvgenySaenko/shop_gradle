@@ -16,5 +16,4 @@ public class LoggingAspect {
     public void profileAllMethods(JoinPoint joinPoint) {
         log.info("Method {} has been executed successfully !", joinPoint.toShortString());
     }
-
 }
