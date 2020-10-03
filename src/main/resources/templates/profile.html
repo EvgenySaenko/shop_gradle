@@ -17,24 +17,24 @@
                     <li class="nav-item ">
                         <a class="nav-link" th:href="@{/}">Главная</a>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item">
                         <a class="nav-link" th:href="@{/products/}">Товары</a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" th:href="@{/about}">О магазине</a>
                     </li>
                 </ul>
 
                 <div class="navbar-nav " style="margin-left: auto;margin-right: 0px" sec:authorize="isAuthenticated()">
-                    <div class="nav-item ">
+                    <div class="nav-item active ">
                         <a class="nav-link" th:href="@{/profile}" th:text="Профиль">PROFILE</a>
                     </div>
                     <div class="nav-item">
                         <a class="nav-link" th:href="@{/cart}" th:text="Корзина">CART</a>
                     </div>
-                    <div class="nav-item" th:action="@{/logout}" method="POST" >
-                        <button id="navLogout" class="btn btn-outline-warning" type="submit"  th:text="Выйти">EXIT</button>
-                    </div>
+                    <form class="nav-item" th:action="@{/logout}" method="POST" >
+                        <button id="navLogout" class="btn btn-outline-warning" type="submit"  th:text="logout"></button>
+                    </form>
                 </div>
 
                 <div class="navbar-brand  flex-fill " sec:authorize="isAnonymous()">
@@ -47,7 +47,7 @@
                                 <input type="password" name="password" placeholder="password" class="form-control">
                             </div>
                             <div class="col-sm">
-                                <button type="submit" class="btn btn-success">вход</button>
+                                <button type="submit" class="btn btn-outline-warning">Войти</button>
                             </div>
                         </div>
                     </form>

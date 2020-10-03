@@ -17,7 +17,7 @@
             <li class="nav-item ">
                 <a class="nav-link" th:href="@{/products/}">Товары</a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" th:href="@{/about}">О магазине</a>
             </li>
         </ul>
@@ -29,9 +29,9 @@
             <div class="nav-item">
                 <a class="nav-link" th:href="@{/cart}" th:text="Корзина">CART</a>
             </div>
-            <div class="nav-item" th:action="@{/logout}" method="POST" >
-                <button id="navLogout" class="btn btn-outline-warning" type="submit"  th:text="Выйти">EXIT</button>
-            </div>
+            <form class="nav-item" th:action="@{/logout}" method="POST" >
+                <button id="navLogout" class="btn btn-outline-warning" type="submit"  th:text="logout"></button>
+            </form>
         </div>
 
         <div class="navbar-brand  flex-fill " sec:authorize="isAnonymous()">

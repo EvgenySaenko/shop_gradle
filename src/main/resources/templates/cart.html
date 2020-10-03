@@ -13,10 +13,10 @@
                     <li class="nav-item ">
                         <a class="nav-link" th:href="@{/}">Главная</a>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item">
                         <a class="nav-link" th:href="@{/products/}">Товары</a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" th:href="@{/about}">О магазине</a>
                     </li>
                 </ul>
@@ -25,12 +25,12 @@
                     <div class="nav-item ">
                         <a class="nav-link" th:href="@{/profile}" th:text="Профиль">PROFILE</a>
                     </div>
-                    <div class="nav-item">
+                    <div class="nav-item active">
                         <a class="nav-link" th:href="@{/cart}" th:text="Корзина">CART</a>
                     </div>
-                    <div class="nav-item" th:action="@{/logout}" method="POST" >
-                        <button id="navLogout" class="btn btn-outline-warning" type="submit"  th:text="Выйти">EXIT</button>
-                    </div>
+                    <form class="nav-item" th:action="@{/logout}" method="POST" >
+                        <button id="navLogout" class="btn btn-outline-warning" type="submit"  th:text="logout"></button>
+                    </form>
                 </div>
 
                 <div class="navbar-brand  flex-fill " sec:authorize="isAnonymous()">
@@ -43,7 +43,7 @@
                                 <input type="password" name="password" placeholder="password" class="form-control">
                             </div>
                             <div class="col-sm">
-                                <button type="submit" class="btn btn-success">вход</button>
+                                <button type="submit" class="btn btn-outline-warning">Войти</button>
                             </div>
                         </div>
                     </form>
@@ -51,7 +51,7 @@
             </nav>
 
             <h1>Корзина</h1>
-            <!--/*@thymesVar id="cart" type="ru.geekbrains.shop.beans.Cart"*/-->
+
             <div th:if="${cart.cartRecords.size() > 0}">
                 <table class="table table-hover">
                     <thead class="thead-light">
@@ -64,7 +64,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!--/*@thymesVar id="cartRecord" type="ru.geekbrains.shop.persistence.entities.CartRecord"*/-->
                     <tr th:each="cartRecord : ${cart.cartRecords}">
                         <td th:text="${cartRecord.product.title}"/>
                         <td th:text="${cartRecord.product.price}"/>
@@ -77,10 +76,33 @@
                     </tbody>
                 </table>
                 <span th:text="'Общая стоимость: ' + ${cart.price}" />
+                <form method="post" th:action="@{/checkout}">
+                    <div class="row" th:if="${cart.payments.size() > 0 && cart.cartRecords.size() > 0}">
+                        <div class="col-sm">
+                            Выберите способ оплаты:
+                            <label>
+                                <select id="payment" name="paymentId">
+                                    <option th:each="payment : ${cart.payments}"
+                                            th:value="${payment.id}"
+                                            th:text="${payment.name}">
+                                    </option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="col-sm">
+                            <input type="submit" class="btn btn-primary" value="Перейти к оплате покупок" />
+                        </div>
+                    </div>
+                    <div class="row" th:if="${cart.payments.size() == 0}">
+                        <div>К сожалению сервис оплаты временно недоступен! Попробуйте оплатить позднее! </div>
+                    </div>
+                </form>
             </div>
             <div th:if="${cart.cartRecords.size() == 0}">
                 <span text="Ваша корзина пуста" />
             </div>
+
+
         </div>
 
     </body>
