@@ -2,6 +2,7 @@ package ru.geekbrains.shop.services;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.stereotype.Service;
 
 import ru.geekbrains.shop.dto.ProductDto;
@@ -24,6 +25,8 @@ public class ReviewService {
 
 
     private final ReviewRepository reviewRepository;
+    private final AmqpTemplate amqpTemplate;
+
 
     public List<Review> getReviewsByProduct(Product product) {
         return reviewRepository.findByProduct(product);
@@ -45,6 +48,7 @@ public class ReviewService {
                 .approved(shopuserOptional.get().equals(Role.ROLE_ADMIN))
                 .image(image)
                 .build();
+        amqpTemplate.convertAndSend("super-shop.exchange","super.shop","User has left review");
         reviewRepository.save(review);
     }
 
