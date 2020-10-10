@@ -50,6 +50,7 @@ public class ProductController {
 
 
     @GetMapping("/")
+    @ApiOperation(value = "Выводит на сраницу все продукты данной категории(если указана)", response = String.class)
     public String allProducts(Model model, @RequestParam(required = false) Integer category) {
         model.addAttribute("products", productService.getAll(category));
         return "products";
@@ -58,6 +59,7 @@ public class ProductController {
 
 
     @PostMapping//добавляет картинку при добавлении товара
+    @ApiOperation(value = "Добавляет картинку при добавлении товара", response = String.class)
     public String addImageProduct(@RequestParam("image") MultipartFile image, ProductDto productDto) throws IOException {
         Image img = imageService.uploadImage(image, productDto.getTitle());
         productService.save(productDto, img);
@@ -79,6 +81,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/images/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    @ApiOperation(value = "Возвращает изображение(массив байтов)", response = Byte.class)
     public @ResponseBody byte[] getImage(@PathVariable String id) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         BufferedImage bufferedImage = imageService.loadFileAsResource(id);
@@ -98,6 +101,7 @@ public class ProductController {
 //    }
 
     @PostMapping("/reviews")
+    @ApiOperation(value = "Добавляет комментарий к товару", response = String.class)
     public String addReview(@RequestParam("image") MultipartFile image, ReviewDto reviewDto, HttpSession httpSession, Principal principal) throws IOException {
 
         //чтобы проверить совпала ли каптча

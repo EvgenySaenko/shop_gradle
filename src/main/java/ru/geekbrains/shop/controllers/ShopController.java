@@ -1,8 +1,11 @@
 package ru.geekbrains.shop.controllers;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -12,6 +15,8 @@ import ru.geekbrains.shop.beans.Cart;
 import ru.geekbrains.shop.services.ImageService;
 import ru.geekbrains.shop.services.ProductService;
 import ru.geekbrains.shop.services.ShopuserService;
+import ru.geekbrains.shop.services.feign.clients.ReturnPickUpPointsClient;
+import ru.geekbrains.shop.services.feign.clients.ShopFeignClient;
 import ru.geekbrains.shop.utils.CaptchaGenerator;
 
 import javax.imageio.ImageIO;
@@ -31,17 +36,48 @@ public class ShopController {
     private final CaptchaGenerator captchaGenerator;
     private final ProductService productService;
     private final ShopuserService shopuserService;
+    private final ShopFeignClient shopFeignClient;
+    private final ReturnPickUpPointsClient returnPickUpPointsClient;
+
+    @Value("${supershop.name}")
+    private String shopName;
+
+    @Value("${supershop.city}")
+    private String shopCity;
+
+    @Value("${supershop.phone}")
+    private String shopPhone;
+
+    @Value("${supershop.email}")
+    private String shopEmail;
+
+
+    @GetMapping("/info")//возвращает флаер
+    public ResponseEntity<byte[]> getFlyer(){
+        return shopFeignClient.getFlyer();
+    }
+
+    @GetMapping("/points")//возвращает список пунктов самовывоза в JSON формате
+    public ResponseEntity<byte[]> getAddressPoints(){
+        return returnPickUpPointsClient.getJsonFile();
+    }
 
 
     @GetMapping("/")
     public String index(Model model, @RequestParam(required = false) Integer category) {
         model.addAttribute("cart", cart.getCartRecords());
         model.addAttribute("products", productService.getAll(category));
+        model.addAttribute("shopname", shopName);
+        model.addAttribute("shopcity", shopCity);
         return "index";
     }
 
     @GetMapping("/about")
-    public String aboutPage() {
+    public String aboutPage(Model model) {
+        model.addAttribute("shopname", shopName);
+        model.addAttribute("shopcity", shopCity);
+        model.addAttribute("shopphone", shopPhone);
+        model.addAttribute("shopemail", shopEmail);
         return "about";
     }
 
