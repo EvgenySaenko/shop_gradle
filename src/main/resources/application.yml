@@ -11,11 +11,11 @@ spring:
     password: postgres
   jpa:
     show-sql: true
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
   thymeleaf:
     cache: false
   servlet:
@@ -28,8 +28,8 @@ files:
     images: "F:\\Spring\\uploads\\images"
 
 
-geekshop:
-  rabbitmq:
-    exchange: super-shop.exchange
-    routingkey: super.shop
-    queue:super-shop.queue
+#geekshop:
+#  rabbitmq:
+#    exchange: super-shop.exchange
+#    routingkey: super.shop
+#    queue:super-shop.queue

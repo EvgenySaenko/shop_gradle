@@ -1,5 +1,7 @@
 package ru.geekbrains.shop.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.amqp.core.AmqpTemplate;
@@ -38,6 +40,7 @@ import java.util.UUID;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/products")
+@Api("Набор методов для витрины онлайн-магазина")
 public class ProductController {
 
     private final ImageService imageService;
@@ -60,7 +63,7 @@ public class ProductController {
         productService.save(productDto, img);
         return "redirect:/products/";
     }
-
+    @ApiOperation(value = "Получить продукт в одном количестве", response = String.class)
     @GetMapping("/{id}")
     public String getOne(Model model, @PathVariable String id) {
         //находим наш продукт по id
@@ -114,5 +117,15 @@ public class ProductController {
         }
         return "redirect:/";
     }
+
+    //    @RabbitListener(queues = "super-shop.queue")
+//    public void listenTo(Message message) {
+//        try {
+//            String reqMessage = new String(message.getBody(), StandardCharsets.UTF_8);
+//            System.out.println(reqMessage);
+//        } catch (Throwable th) {
+//            log.error("Fatal error: can't process Generated Report response", th);
+//        }
+//    }
 
 }
