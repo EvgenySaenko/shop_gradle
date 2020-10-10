@@ -1,5 +1,7 @@
 package ru.geekbrains.shop.services;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,18 +21,23 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Api("Выполняет бизнес логику с товарами")
 public class ProductService {
 
     private final ProductRepository productRepository;
 
+    @ApiOperation(value = "Достает товар по его id", response = Optional.class)
     public Optional getOneById(UUID id) {
         return productRepository.findById(id);
     }
     //если мы не указали категорию - будет выводится просто список всех продуктов, если указали будет осуществлен поиск по категории
+
+    @ApiOperation(value = "Достает список товаров, если указана категория - выводит списко товаров этой категории", response = List.class)
     public List<Product> getAll(Integer category) {//вызвали массив енумов .values()[] и внутрь передали категорию
         return category == null ? productRepository.findAll() : productRepository.findAllByCategory(ProductCategory.values()[category]);
     }
 
+    @ApiOperation(value = "Добавляет и сохраняет товар в базу данных с картинкой", response = String.class)
     public String save(ProductDto productDto, Image image) {
 
         Product product = Product.builder()

@@ -1,15 +1,16 @@
+
 plugins {
 	id 'org.springframework.boot' version '2.2.1.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
-	//id 'com.google.cloud.tools.jib' version '1.8.0'
+	id 'com.google.cloud.tools.jib' version '1.8.0'
 	id 'no.nils.wsdl2java' version '0.12'
 }
 
 apply plugin: 'no.nils.wsdl2java'
-//apply plugin: 'com.google.cloud.tools.jib'
+apply plugin: 'com.google.cloud.tools.jib'
 
-//apply from: 'gradle/jib.gradle'
+apply from: 'gradle/jib.gradle'
 
 group = 'ru.geekbrains.shop'
 version = '0.0.1'
@@ -26,17 +27,23 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	set('springCloudVersion', 'Hoxton.SR3')
+}
+
 def swaggerVersion = '2.9.2'
 
 dependencies {
 
 	compileOnly("org.flywaydb:flyway-core")
 
+	implementation("org.springframework.cloud:spring-cloud-starter-config")
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-undertow")
-
 	implementation("org.springframework.boot:spring-boot-starter-amqp")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 
@@ -66,3 +73,10 @@ wsdl2java{
 			[ '-wsdlLocation', 'classpath:META-INF/wsdl/payment/WsPayment.wsdl', file("${projectDir}/src/main/resources/META-INF/wsdl/payment/WsPayment.wsdl") ]
 	]
 }
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
