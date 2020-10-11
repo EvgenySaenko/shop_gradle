@@ -69,4 +69,8 @@ public class ReviewService {
             return null;
         }
     }
+    @ApiOperation(value = "Достает полный список комментариев",response = List.class)
+    public List<Review> getAll(){
+        return reviewRepository.findAll();
+    }
 }

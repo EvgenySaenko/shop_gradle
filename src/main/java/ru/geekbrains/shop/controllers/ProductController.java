@@ -65,6 +65,7 @@ public class ProductController {
         productService.save(productDto, img);
         return "redirect:/products/";
     }
+
     @ApiOperation(value = "Получить продукт в одном количестве", response = String.class)
     @GetMapping("/{id}")
     public String getOne(Model model, @PathVariable String id) {
