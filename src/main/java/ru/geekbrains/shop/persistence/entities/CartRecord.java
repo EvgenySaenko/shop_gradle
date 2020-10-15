@@ -1,8 +1,6 @@
 package ru.geekbrains.shop.persistence.entities;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import ru.geekbrains.shop.persistence.entities.utils.PersistableEntity;
 
@@ -14,7 +12,9 @@ import javax.persistence.Table;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "cart_record")
 @EqualsAndHashCode(callSuper = true)
 public class CartRecord extends PersistableEntity {

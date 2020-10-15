@@ -36,10 +36,32 @@ public class Cart {
         payments = paymentService.getPayments("Russia");
     }
 
+    public CartRecord getCartRecordById(UUID id){
+        for (CartRecord cartRecord : cartRecords)
+            if (cartRecord.getProduct().getId().equals(id)) {
+                return cartRecord;
+            }
+        return null;
+    }
+
+    public void edit(CartRecord modifiedCartRecord){
+        for (CartRecord cartRec: cartRecords){
+            if (cartRec.getProduct().getId().equals(modifiedCartRecord.getProduct().getId())){
+                cartRec.setQuantity(modifiedCartRecord.getQuantity());
+                cartRec.setPrice(modifiedCartRecord.getQuantity() * modifiedCartRecord.getProduct().getPrice());
+                recalculatePrice();
+                return;
+            }
+        }
+        recalculatePrice();
+    }
+
     public void clear() {
         cartRecords.clear();
         recalculatePrice();
     }
+
+
 
     public void add(Product product) {
         for (CartRecord cartRecord : cartRecords) {

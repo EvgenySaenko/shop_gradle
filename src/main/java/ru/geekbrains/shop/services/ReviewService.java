@@ -54,7 +54,7 @@ public class ReviewService {
                 .approved(shopuserOptional.get().equals(Role.ROLE_ADMIN))
                 .image(image)
                 .build();
-        amqpTemplate.convertAndSend("super-shop.exchange","super.shop","User has left review");
+        //amqpTemplate.convertAndSend("super-shop.exchange","super.shop","User has left review");
         reviewRepository.save(review);
     }
     @ApiOperation(value = "Модерация комментариев",response = UUID.class)

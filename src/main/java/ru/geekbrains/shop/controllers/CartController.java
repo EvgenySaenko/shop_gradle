@@ -8,12 +8,12 @@ import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import ru.geekbrains.paymentservice.Payment;
 import ru.geekbrains.shop.beans.Cart;
+import ru.geekbrains.shop.dto.ProductDto;
+import ru.geekbrains.shop.persistence.entities.CartRecord;
 import ru.geekbrains.shop.persistence.entities.Product;
 import ru.geekbrains.shop.services.ProductService;
 import ru.geekbrains.shop.services.soap.PaymentService;
@@ -58,4 +58,16 @@ public class CartController {
         return "cart";
     }
 
+    //студента достали добавили в форму и показали
+    @GetMapping("/edit/{id}")
+    public String showEditFormCart(@PathVariable UUID id, Model model){
+        model.addAttribute("cartRecord", cart.getCartRecordById(id));
+        return "edit_form_cart";
+    }
+
+    @PostMapping("/edit")
+    public String modifyCartRecord(@ModelAttribute CartRecord cartRecord){
+        cart.edit(cartRecord);
+        return "redirect:/cart";
+    }
 }
