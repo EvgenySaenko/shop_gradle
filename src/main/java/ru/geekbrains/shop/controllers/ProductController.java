@@ -58,7 +58,7 @@ public class ProductController {
 
 
 
-    @PostMapping//добавляет картинку при добавлении товара
+    @PostMapping//добавляет картинку и новый товар(админ)
     @ApiOperation(value = "Добавляет картинку при добавлении товара", response = String.class)
     public String addImageProduct(@RequestParam("image") MultipartFile image, ProductDto productDto) throws IOException {
         Image img = imageService.uploadImage(image, productDto.getTitle());

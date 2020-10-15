@@ -61,6 +61,7 @@
                         <th>Количество</th>
                         <th>Цена</th>
                         <th></th>
+                        <th>Операции</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -71,6 +72,9 @@
                         <td th:text="${cartRecord.price}"/>
                         <td>
                             <a th:href="@{'/cart/remove/' + ${cartRecord.product.id}}" class="btn btn-danger">Удалить</a>
+                        </td>
+                        <td>
+                            <a th:href="@{'/cart/edit/' + ${cartRecord.product.id}}" class="btn btn-warning">Изменить</a>
                         </td>
                     </tr>
                     </tbody>
