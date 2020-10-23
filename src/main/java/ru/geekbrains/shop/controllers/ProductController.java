@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +18,6 @@ import ru.geekbrains.shop.persistence.entities.Image;
 import ru.geekbrains.shop.persistence.entities.Product;
 import ru.geekbrains.shop.persistence.entities.Review;
 import ru.geekbrains.shop.persistence.entities.Shopuser;
-import ru.geekbrains.shop.persistence.entities.enums.Role;
 import ru.geekbrains.shop.services.ImageService;
 import ru.geekbrains.shop.services.ProductService;
 import ru.geekbrains.shop.services.ReviewService;
@@ -46,7 +44,7 @@ public class ProductController {
     private final ImageService imageService;
     private final ProductService productService;
     private final ReviewService reviewService;
-    private final ShopuserService shopuserService;
+
 
 
     @GetMapping("/")
@@ -94,34 +92,10 @@ public class ProductController {
         }
     }
 
-//    @PostMapping//добавляет картинку при добавлении товара
-//    public String addImageReview(@RequestParam("image") MultipartFile image, ReviewDto reviewDto) throws IOException {
-//        Image img = imageService.uploadImage(image, reviewDto.getId().toString());
-//        reviewService.save(reviewDto,img);
-//        return "redirect:/products/";
-//    }
 
-    @PostMapping("/reviews")
-    @ApiOperation(value = "Добавляет комментарий к товару", response = String.class)
-    public String addReview(@RequestParam("image") MultipartFile image, ReviewDto reviewDto, HttpSession httpSession, Principal principal) throws IOException {
 
-        //чтобы проверить совпала ли каптча
-        if (httpSession.getAttribute("captchaCode").equals(reviewDto.getCaptchaCode())){
-            System.out.println("TRUE");
-        }else {
-            System.out.println("FALSE");
-        }
-        Optional<Product> productOptional = productService.getOneById(reviewDto.getProductId());
-        Optional<Shopuser> shopuserOptional = shopuserService.findByPhone(principal.getName());
 
-        //если существует продукт и юзер, то формируем ревью
-        if (productOptional.isPresent() && shopuserOptional.isPresent()) {
-            Image img = imageService.uploadImage(image, imageService.generateNameImage(reviewDto,productOptional));
-            reviewService.save(reviewDto,img,productOptional,shopuserOptional);
-            return "redirect:/products/" + productOptional.get().getId();
-        }
-        return "redirect:/";
-    }
+
 
     //    @RabbitListener(queues = "super-shop.queue")
 //    public void listenTo(Message message) {

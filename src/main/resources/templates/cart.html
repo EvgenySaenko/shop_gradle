@@ -52,7 +52,7 @@
 
             <h1>Корзина</h1>
 
-            <div th:if="${cart.cartRecords.size() > 0}">
+            <div th:if="${@cart.items.size() > 0}">
                 <table class="table table-hover">
                     <thead class="thead-light">
                     <tr>
@@ -65,23 +65,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="cartRecord : ${cart.cartRecords}">
-                        <td th:text="${cartRecord.product.title}"/>
-                        <td th:text="${cartRecord.product.price}"/>
-                        <td th:text="${cartRecord.quantity}"/>
-                        <td th:text="${cartRecord.price}"/>
+                    <tr th:each="i : ${@cart.getItems()}">
+                        <td th:text="${i.product.title}"/>
+                        <td th:text="${i.product.price}"/>
                         <td>
-                            <a th:href="@{'/cart/remove/' + ${cartRecord.product.id}}" class="btn btn-danger">Удалить</a>
+                            <a class="btn btn-dark" th:href="@{'/cart/decrement/' + ${i.product.id}}">-</a>
+                            <span th:text="'  ' + ${i.quantity} + '  '"/>
+                            <a class="btn btn-dark" th:href="@{'/cart/add/' + ${i.product.id}}">+</a>
                         </td>
+                        <td th:text="${i.quantity}"/>
+                        <td th:text="${i.price}"/>
                         <td>
-                            <a th:href="@{'/cart/edit/' + ${cartRecord.product.id}}" class="btn btn-warning">Изменить</a>
+                            <a th:href="@{'/cart/remove/' + ${i.product.id}}" class="btn btn-danger">Удалить</a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
                 <span th:text="'Общая стоимость: ' + ${cart.price}" />
                 <form method="post" th:action="@{/checkout}">
-                    <div class="row" th:if="${cart.payments.size() > 0 && cart.cartRecords.size() > 0}">
+                    <div class="row" th:if="${cart.payments.size() > 0 && cart.items.size() > 0}">
                         <div class="col-sm">
                             Выберите способ оплаты:
                             <label>
@@ -101,8 +103,10 @@
                         <div>К сожалению сервис оплаты временно недоступен! Попробуйте оплатить позднее! </div>
                     </div>
                 </form>
+                <a class="btn btn-dark" th:href="@{'/orders/create'}" th:if="${@cart.items.size() > 0}">Оформить заказ</a>
             </div>
-            <div th:if="${cart.cartRecords.size() == 0}">
+
+            <div th:if="${cart.items.size() == 0}">
                 <span text="Ваша корзина пуста" />
             </div>
 

@@ -65,7 +65,7 @@ public class ShopController {
 
     @GetMapping("/")
     public String index(Model model, @RequestParam(required = false) Integer category) {
-        model.addAttribute("cart", cart.getCartRecords());
+        model.addAttribute("cart", cart.getItems());
         model.addAttribute("products", productService.getAll(category));
         model.addAttribute("shopname", shopName);
         model.addAttribute("shopcity", shopCity);

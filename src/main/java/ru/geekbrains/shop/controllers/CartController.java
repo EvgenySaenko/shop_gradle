@@ -10,18 +10,14 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 
-import ru.geekbrains.paymentservice.Payment;
 import ru.geekbrains.shop.beans.Cart;
-import ru.geekbrains.shop.dto.ProductDto;
-import ru.geekbrains.shop.persistence.entities.CartRecord;
 import ru.geekbrains.shop.persistence.entities.Product;
 import ru.geekbrains.shop.services.ProductService;
-import ru.geekbrains.shop.services.soap.PaymentService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,6 +29,15 @@ public class CartController {
 
     private final Cart cart;
     private final ProductService productService;
+
+    @GetMapping("/decrement/{id}")
+    public void decrementProductToCartById(@PathVariable UUID id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Optional<Product> productOptional = productService.getOneById(id);
+        if (productOptional.isPresent()) {
+            cart.decrement(productOptional.get());
+            response.sendRedirect(request.getHeader("referer"));
+        }
+    }
 
     @GetMapping("/add/{id}")
     @ApiOperation(value = "Добавляет продукт в одном количестве в корзину")
@@ -58,16 +63,16 @@ public class CartController {
         return "cart";
     }
 
-    //студента достали добавили в форму и показали
-    @GetMapping("/edit/{id}")
-    public String showEditFormCart(@PathVariable UUID id, Model model){
-        model.addAttribute("cartRecord", cart.getCartRecordById(id));
-        return "edit_form_cart";
-    }
-
-    @PostMapping("/edit")
-    public String modifyCartRecord(@ModelAttribute CartRecord cartRecord){
-        cart.edit(cartRecord);
-        return "redirect:/cart";
-    }
+//    //студента достали добавили в форму и показали
+//    @GetMapping("/edit/{id}")
+//    public String showEditFormCart(@PathVariable UUID id, Model model){
+//        model.addAttribute("cartRecord", cart.getCartRecordById(id));
+//        return "edit_form_cart";
+//    }
+//
+//    @PostMapping("/edit")
+//    public String modifyCartRecord(@ModelAttribute CartRecord cartRecord){
+//        cart.edit(cartRecord);
+//        return "redirect:/cart";
+//    }
 }

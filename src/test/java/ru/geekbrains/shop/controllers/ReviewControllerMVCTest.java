@@ -19,6 +19,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import ru.geekbrains.shop.persistence.entities.Review;
+import ru.geekbrains.shop.services.ImageService;
+import ru.geekbrains.shop.services.ProductService;
 import ru.geekbrains.shop.services.ReviewService;
 import ru.geekbrains.shop.services.ShopuserService;
 
@@ -37,13 +39,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = ReviewController.class)
 public class ReviewControllerMVCTest {
 
-
-
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean//инжектим имитацию бина, чтобы легковесно прогнать тест нашего MVC слоя не поднимая ApplicationContext
     private ReviewService reviewServiceMock;
+
+    @MockBean
+    private  ProductService productServiceMock;
+
+    @MockBean
+    private  ImageService imageServiceMock;
 
     @MockBean
     private ShopuserService shopuserServiceMock;

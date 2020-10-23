@@ -54,23 +54,25 @@ INSERT INTO shopuser (id, phone, password, email, first_name, last_name, role) V
 INSERT INTO shopuser (id, phone, password, email, first_name, last_name, role) VALUES ('fbe5a8e7-8555-4ee8-bff2-c572447e5f25', '11111111', '$2a$10$38Kk/bXPH19tGktmizpDRulWSREwnBv4pcXhSVkgOD6.esGereVMK', 'admin@supershop.com', 'Admin', 'Admin','ROLE_ADMIN');
 INSERT INTO shopuser (id, phone, password, email, first_name, last_name, role) VALUES ('04c8bd30-ba4e-4e82-b996-db907e37a2c6', '22222222', '$2a$10$7kFV55CKBIQb8EYwaHqcKO52X8LB8d/0kaesWZENPOGyBtt3xP/Xi', 'user@supershop.com', 'User', 'User', 'ROLE_CUSTOMER');
 
-DROP TABLE IF EXISTS purchase;
 
-CREATE TABLE IF NOT EXISTS purchase (
-    id uuid DEFAULT uuid_generate_v4() UNIQUE NOT NULL CONSTRAINT PK_purchase PRIMARY KEY,
-    price DOUBLE PRECISION DEFAULT 0.0 NOT NULL,
-    address VARCHAR(255) NOT NULL,
-    shopuser uuid NOT NULL CONSTRAINT FK_purchase_users REFERENCES shopuser
-);
+drop table if exists orders cascade;
+create table orders (
+    id uuid DEFAULT uuid_generate_v4(),
+    user_id uuid not null,
+    price numeric(8, 2) not null,
+    address varchar (255) not null,
+    phone_number varchar(30) not null,
+    primary key(id), constraint fk_user_id foreign key (user_id) references shopuser (id));
 
-DROP TABLE IF EXISTS cart_record;
-
-CREATE TABLE IF NOT EXISTS cart_record (
-    id uuid DEFAULT uuid_generate_v4() UNIQUE NOT NULL CONSTRAINT PK_cart_record PRIMARY KEY,
-    quantity INTEGER DEFAULT 0 NOT NULL,
-    price DOUBLE PRECISION DEFAULT 0.0 NOT NULL,
-    product uuid NOT NULL CONSTRAINT FK_cart_product REFERENCES product ON UPDATE CASCADE ON DELETE CASCADE,
-    purchase uuid NOT NULL CONSTRAINT FK_cart_purchase REFERENCES purchase ON UPDATE CASCADE ON DELETE CASCADE
+drop table if exists orders_items cascade;
+create table orders_items (
+  id uuid DEFAULT uuid_generate_v4(),
+  order_id uuid not null,
+  product_id uuid not null,
+  quantity int,
+  price numeric(8, 2),
+  primary key(id), constraint fk_prod_id foreign key (product_id) references product (id),
+  constraint fk_order_id foreign key (order_id) references orders (id)
 );
 
 DROP TABLE IF EXISTS review;
@@ -80,5 +82,6 @@ CREATE TABLE IF NOT EXISTS review (
     commentary TEXT NOT NULL,
     shopuser uuid NOT NULL CONSTRAINT FK_review_shopuser REFERENCES shopuser,
     product uuid NOT NULL CONSTRAINT FK_review_product REFERENCES product,
-    approved BOOLEAN NOT NULL
+    approved BOOLEAN NOT NULL,
+    image uuid
 );
