@@ -7,11 +7,13 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
 
+import org.thymeleaf.context.Context;
 import ru.geekbrains.shop.dto.ProductDto;
 import ru.geekbrains.shop.persistence.entities.Image;
 import ru.geekbrains.shop.persistence.entities.Product;
 import ru.geekbrains.shop.persistence.entities.enums.ProductCategory;
 import ru.geekbrains.shop.persistence.repositories.ProductRepository;
+import ru.geekbrains.shop.services.notification.MailService;
 
 import java.util.Date;
 import java.util.List;
@@ -51,6 +53,7 @@ public class ProductService {
         .build();
 
         productRepository.save(product);
+
         log.info("New Product has been succesfully added! {}", product);
         return "redirect:/";
     }

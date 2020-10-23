@@ -8,12 +8,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
 import ru.geekbrains.paymentservice.Payment;
-import ru.geekbrains.shop.persistence.entities.CartRecord;
+import ru.geekbrains.shop.persistence.entities.OrderItem;
 import ru.geekbrains.shop.persistence.entities.Product;
 import ru.geekbrains.shop.services.soap.PaymentService;
 
 import javax.annotation.PostConstruct;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,72 +24,65 @@ import java.util.UUID;
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Cart {
 
-    private List<CartRecord> cartRecords;
+    private List<OrderItem> items;
     private List<Payment> payments;
-    private Double price;
+    private BigDecimal price;
 
     private final PaymentService paymentService;
 
 
     @PostConstruct
     public void init() {
-        cartRecords = new ArrayList<>();
+        this.items = new ArrayList<>();
         payments = paymentService.getPayments("Russia");
     }
 
-    public CartRecord getCartRecordById(UUID id){
-        for (CartRecord cartRecord : cartRecords)
-            if (cartRecord.getProduct().getId().equals(id)) {
-                return cartRecord;
-            }
-        return null;
+    public void clear(){
+        items.clear();
+        recalculate();
     }
-
-    public void edit(CartRecord modifiedCartRecord){
-        for (CartRecord cartRec: cartRecords){
-            if (cartRec.getProduct().getId().equals(modifiedCartRecord.getProduct().getId())){
-                cartRec.setQuantity(modifiedCartRecord.getQuantity());
-                cartRec.setPrice(modifiedCartRecord.getQuantity() * modifiedCartRecord.getProduct().getPrice());
-                recalculatePrice();
-                return;
-            }
-        }
-        recalculatePrice();
-    }
-
-    public void clear() {
-        cartRecords.clear();
-        recalculatePrice();
-    }
-
-
 
     public void add(Product product) {
-        for (CartRecord cartRecord : cartRecords) {
-            if (cartRecord.getProduct().getId().equals(product.getId())) {
-                cartRecord.setQuantity(cartRecord.getQuantity() + 1);
-                cartRecord.setPrice(cartRecord.getQuantity() * cartRecord.getProduct().getPrice());
-                recalculatePrice();
+        for (OrderItem i : items) {
+            if (i.getProduct().getId().equals(product.getId())) {
+                i.increment();
+                recalculate();
                 return;
             }
         }
-        cartRecords.add(new CartRecord(product));
-        recalculatePrice();
+        items.add(new OrderItem(product));
+        recalculate();
     }
 
-    public void removeByProductId(UUID productId) {
-        for (int i = 0; i < cartRecords.size(); i++) {
-            if (cartRecords.get(i).getProduct().getId().equals(productId)) {
-                cartRecords.remove(i);
-                recalculatePrice();
+    public void decrement(Product product) {
+        for (OrderItem i : items) {
+            if (i.getProduct().getId().equals(product.getId())) {
+                i.decrement();
+                if (i.isEmpty()) {
+                    items.remove(i);
+                }
+                recalculate();
+                return;
+            }
+        }
+        items.add(new OrderItem(product));
+        recalculate();
+    }
+
+    public void removeByProductId(UUID productId){
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getProduct().getId().equals(productId)) {
+                items.remove(i);
+                recalculate();
                 return;
             }
         }
     }
 
-    private void recalculatePrice() {
-        price = 0.0;
-        cartRecords.forEach(cartRecord -> price = price + cartRecord.getPrice());
+    public void recalculate() {
+        price = new BigDecimal(0.0);
+        for (OrderItem i : items) {
+            price = price.add(i.getPrice());
+        }
     }
-
 }

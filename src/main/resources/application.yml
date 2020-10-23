@@ -11,7 +11,20 @@ spring:
     password: postgres
   jpa:
     show-sql: true
-#  rabbitmq:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: razumserdca777@gmail.com
+    password: 2904qwerty1984
+    protocol: smtp
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+
+  #  rabbitmq:
 #    host: localhost
 #    port: 5672
 #    username: guest

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:remove="all">Подтверждение заказа</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div>
+            <span th:text="'Ваш заказ на сумму ' + ${order_price} + ' рублей, успешно сформирован!'"/>
+            <span th:text="'Наши менеджеры свяжутся с вами в ближайшее по указаному вами телеону: ' + ${order_phone}"/>
+            <span th:text="'Проверьте указанный вами адрес доставки: ' + ${order_address}"/>
+        </div>
+    </body>
+</html>
