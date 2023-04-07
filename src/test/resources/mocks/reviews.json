@@ -1,0 +1,86 @@
+[
+  {
+    "id": "08377d19-f634-4e69-baf6-8c54a8e255c0",
+    "commentary": "Вкусный лимонад",
+    "shopuser": {
+      "id": "fbe5a8e7-8555-4ee8-bff2-c572447e5f25",
+      "phone": "11111111",
+      "password": "$2a$10$38Kk/bXPH19tGktmizpDRulWSREwnBv4pcXhSVkgOD6.esGereVMK",
+      "firstName": "Admin",
+      "lastName": "Admin",
+      "email": "admin@supershop.com",
+      "role": "ROLE_ADMIN"
+    },
+    "product": {
+      "id": "6d0870b1-e60a-4199-acee-b9e14cb373fe",
+      "title": "Лимонад",
+      "description": null,
+      "added": 1584343169622,
+      "price": 80,
+      "available": true,
+      "category": "DRINK",
+      "image": {
+        "id": "9ec9ea5a-f9ef-4159-9a9c-bfeedc77ca23",
+        "name": "lemonade.png"
+      }
+    },
+    "image": null,
+    "approved": true
+  },
+  {
+    "id": "9ff0ba2d-3107-4d23-9993-9f092b856c4c",
+    "commentary": "Свежий хлеб!",
+    "shopuser": {
+      "id": "04c8bd30-ba4e-4e82-b996-db907e37a2c6",
+      "phone": "22222222",
+      "password": "$2a$10$7kFV55CKBIQb8EYwaHqcKO52X8LB8d/0kaesWZENPOGyBtt3xP/Xi",
+      "firstName": "User",
+      "lastName": "User",
+      "email": "user@supershop.com",
+      "role": "ROLE_CUSTOMER"
+    },
+    "product": {
+      "id": "304e03f4-ce8c-4f20-9214-3e077f76bb91",
+      "title": "Хлеб",
+      "description": null,
+      "added": 1584302061184,
+      "price": 50,
+      "available": true,
+      "category": "FOOD",
+      "image": {
+        "id": "290679fa-9812-44c6-aa22-df5689d99e14",
+        "name": "bread.png"
+      }
+    },
+    "image": null,
+    "approved": true
+  },
+  {
+    "id": "950d513e-edc7-4fc1-9a5e-632b69cf2908",
+    "commentary": "Супер чай!",
+    "shopuser": {
+      "id": "04c8bd30-ba4e-4e82-b996-db907e37a2c6",
+      "phone": "22222222",
+      "password": "$2a$10$7kFV55CKBIQb8EYwaHqcKO52X8LB8d/0kaesWZENPOGyBtt3xP/Xi",
+      "firstName": "User",
+      "lastName": "User",
+      "email": "user@supershop.com",
+      "role": "ROLE_CUSTOMER"
+    },
+    "product": {
+      "id": "403ae2c8-8df0-4393-87b7-1928a2289c46",
+      "title": "Чай",
+      "description": null,
+      "added": 1584343169622,
+      "price": 50,
+      "available": true,
+      "category": "DRINK",
+      "image": {
+        "id": "62b68ec4-7e33-4bce-a27e-cffb558040f1",
+        "name": "tea.png"
+      }
+    },
+    "image": null,
+    "approved": false
+  }
+]

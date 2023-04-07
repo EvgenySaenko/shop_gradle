@@ -1,0 +1,28 @@
+{
+  "id": "08377d19-f634-4e69-baf6-8c54a8e255c0",
+  "commentary": "Вкусный лимонад",
+  "shopuser": {
+    "id": "fbe5a8e7-8555-4ee8-bff2-c572447e5f25",
+    "phone": "11111111",
+    "password": "$2a$10$38Kk/bXPH19tGktmizpDRulWSREwnBv4pcXhSVkgOD6.esGereVMK",
+    "firstName": "Admin",
+    "lastName": "Admin",
+    "email": "admin@supershop.com",
+    "role": "ROLE_ADMIN"
+  },
+  "product": {
+    "id": "6d0870b1-e60a-4199-acee-b9e14cb373fe",
+    "title": "Лимонад",
+    "description": null,
+    "added": 1584343169622,
+    "price": 80,
+    "available": true,
+    "category": "DRINK",
+    "image": {
+      "id": "9ec9ea5a-f9ef-4159-9a9c-bfeedc77ca23",
+      "name": "lemonade.png"
+    }
+  },
+  "image": null,
+  "approved": true
+}

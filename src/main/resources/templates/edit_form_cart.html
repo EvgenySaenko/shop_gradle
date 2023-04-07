@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>OnlineShop</title>
+</head>
+
+<body>
+    <form th:action="@{/cart/edit}" th:object="${cartRecord}" method="POST">
+        <input hidden th:field="*{id}"/>
+        <h4 th:text="*{product.title}"/>
+        Количество: <input th:field="*{quantity}"/>
+        Цена: <input hidden th:field="*{price}"/>
+        Продукт: <input hidden th:field="*{product}"/>
+        <br>
+<!--        Score: <input th:field="*{price}"/>-->
+        <br>
+        <input type="submit" value="Изменить" />
+    </form>
+    <br>
+    <a th:href="@{/}">на Главную страницу</a>
+</body>
+</html>

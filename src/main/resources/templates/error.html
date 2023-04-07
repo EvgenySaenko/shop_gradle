@@ -1,0 +1,25 @@
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="EN">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>OnlineShop</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">404 Not Found</h4>
+        <p>Запрашиваемый вами ресурс не найден, в скором времени все разрешится</p>
+        <hr>
+        <p class="mb-0">Или попробуйте сформировать более корректный запрос</p>
+    </div>
+<br>
+<a th:href="@{/}">Главная страница</a><br>
+<br>
+<a th:href="@{/products/}">Страница товаров</a>
+</body>
+</html>

@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+    username: sa
+    password: sa
+
+#    если используем докер контейнер для теста то используем эти настройки
+#    driver-class-name: org.postgresql.Driver
+#    jpa:
+#      hibernate:
+#        ddl-crete: auto
+
+#    отключим систему версионирования для тестирования
+  flyway:
+    enabled: false
+
+#    прикрепим настройки но оставим пустыми чтобы не падало все при тестировании
+files:
+  storepath:
+    icons:
+    images:
+
+geekshop:
+  rabbitmq:
+    exchange:
+    routingkey:
+    queue:
+
+documents:
+  service:
+    url:
+
+supershop:
+  city:
+  name:
+
+

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.w3.org/1999/xhtml" lang="EN">
+    <head>
+        <meta charset="utf-8"/>
+        <title>OnlineShop</title>
+        <link rel="stylesheet" th:href="@{../static/css/stylesheet.css}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark  d-flex ">
+                <ul class="navbar-nav  flex-fill">
+                    <li class="nav-item ">
+                        <a class="nav-link" th:href="@{/}">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/products/}">Товары</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/about}">О магазине</a>
+                    </li>
+                </ul>
+
+                <div class="navbar-nav " style="margin-left: auto;margin-right: 0px" sec:authorize="isAuthenticated()">
+                    <div class="nav-item ">
+                        <a class="nav-link" th:href="@{/profile}" th:text="Профиль">PROFILE</a>
+                    </div>
+                    <div class="nav-item active">
+                        <a class="nav-link" th:href="@{/cart}" th:text="Корзина">CART</a>
+                    </div>
+                    <form class="nav-item" th:action="@{/logout}" method="POST" >
+                        <button id="navLogout" class="btn btn-outline-warning" type="submit"  th:text="logout"></button>
+                    </form>
+                </div>
+
+                <div class="navbar-brand  flex-fill " sec:authorize="isAnonymous()">
+                    <form th:action="@{/authenticateTheUser}" method="POST" class="form-inline">
+                        <div class="row" style="margin-left: auto;margin-right: 0px">
+                            <div class="col-sm">
+                                <input type="text" name="username" placeholder="username" class="form-control">
+                            </div>
+                            <div class="col-sm">
+                                <input type="password" name="password" placeholder="password" class="form-control">
+                            </div>
+                            <div class="col-sm">
+                                <button type="submit" class="btn btn-outline-warning">Войти</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <h1>Корзина</h1>
+
+            <div th:if="${@cart.items.size() > 0}">
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                    <tr>
+                        <th>Название товара</th>
+                        <th>Цена 1 шт.</th>
+                        <th>Количество</th>
+                        <th>Цена</th>
+                        <th></th>
+                        <th>Операции</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="i : ${@cart.getItems()}">
+                        <td th:text="${i.product.title}"/>
+                        <td th:text="${i.product.price}"/>
+                        <td>
+                            <a class="btn btn-dark" th:href="@{'/cart/decrement/' + ${i.product.id}}">-</a>
+                            <span th:text="'  ' + ${i.quantity} + '  '"/>
+                            <a class="btn btn-dark" th:href="@{'/cart/add/' + ${i.product.id}}">+</a>
+                        </td>
+                        <td th:text="${i.quantity}"/>
+                        <td th:text="${i.price}"/>
+                        <td>
+                            <a th:href="@{'/cart/remove/' + ${i.product.id}}" class="btn btn-danger">Удалить</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <span th:text="'Общая стоимость: ' + ${cart.price}" />
+                <form method="post" th:action="@{/checkout}">
+                    <div class="row" th:if="${cart.payments.size() > 0 && cart.items.size() > 0}">
+                        <div class="col-sm">
+                            Выберите способ оплаты:
+                            <label>
+                                <select id="payment" name="paymentId">
+                                    <option th:each="payment : ${cart.payments}"
+                                            th:value="${payment.id}"
+                                            th:text="${payment.name}">
+                                    </option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="col-sm">
+                            <input type="submit" class="btn btn-primary" value="Перейти к оплате покупок" />
+                        </div>
+                    </div>
+                    <div class="row" th:if="${cart.payments.size() == 0}">
+                        <div>К сожалению сервис оплаты временно недоступен! Попробуйте оплатить позднее! </div>
+                    </div>
+                </form>
+                <a class="btn btn-dark" th:href="@{'/orders/create'}" th:if="${@cart.items.size() > 0}">Оформить заказ</a>
+            </div>
+
+            <div th:if="${cart.items.size() == 0}">
+                <span text="Ваша корзина пуста" />
+            </div>
+
+
+        </div>
+
+    </body>
+</html>
