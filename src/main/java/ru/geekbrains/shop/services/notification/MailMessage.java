@@ -28,6 +28,7 @@ public class MailMessage {
         this.body = body;
     }
 
+
     public MailMessage sussess() {
         this.status = EMAIL_SUCCESS;
         return this;

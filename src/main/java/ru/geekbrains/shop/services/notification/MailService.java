@@ -3,6 +3,7 @@ package ru.geekbrains.shop.services.notification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -28,6 +29,7 @@ public class MailService {
 
     private void sendMessage(String to, String subject, String text) {
         try {
+
             MimeMessage mail = javaMailSender.createMimeMessage();
             //создаем хелпер который позволяет прикреплять к емайлу файлы если они есть
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);

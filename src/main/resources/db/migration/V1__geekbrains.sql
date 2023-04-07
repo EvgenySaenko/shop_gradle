@@ -51,8 +51,9 @@ CREATE TABLE IF NOT EXISTS shopuser (
 );
 
 INSERT INTO shopuser (id, phone, password, email, first_name, last_name, role) VALUES ('6b718067-e1e4-4202-a7e2-7339ea0d6cb4', 'anonymous', 'anonymous', 'anonymous@supershop.com', 'anonymous', 'anonymous', 'ROLE_CUSTOMER');
-INSERT INTO shopuser (id, phone, password, email, first_name, last_name, role) VALUES ('fbe5a8e7-8555-4ee8-bff2-c572447e5f25', '11111111', '$2a$10$38Kk/bXPH19tGktmizpDRulWSREwnBv4pcXhSVkgOD6.esGereVMK', 'admin@supershop.com', 'Admin', 'Admin','ROLE_ADMIN');
-INSERT INTO shopuser (id, phone, password, email, first_name, last_name, role) VALUES ('04c8bd30-ba4e-4e82-b996-db907e37a2c6', '22222222', '$2a$10$7kFV55CKBIQb8EYwaHqcKO52X8LB8d/0kaesWZENPOGyBtt3xP/Xi', 'user@supershop.com', 'User', 'User', 'ROLE_CUSTOMER');
+INSERT INTO shopuser (id, phone, password, email, first_name, last_name, role) VALUES ('fbe5a8e7-8555-4ee8-bff2-c572447e5f25', '11111111', '$2y$12$POjKJpXZVXCr4UFMXUXjte734QfJrHUHAPUa3BBwXYr1ptJ0mf4GW', 'admin@supershop.com', 'Admin', 'Admin','ROLE_ADMIN');
+INSERT INTO shopuser (id, phone, password, email, first_name, last_name, role) VALUES ('04c8bd30-ba4e-4e82-b996-db907e37a2c6', '22222222', '$2y$12$POjKJpXZVXCr4UFMXUXjte734QfJrHUHAPUa3BBwXYr1ptJ0mf4GW', 'user@supershop.com', 'User', 'User', 'ROLE_CUSTOMER');
+INSERT INTO shopuser (id, phone, password, email, first_name, last_name, role) VALUES ('d4a1471d-0635-4fa2-b90e-0d125d683a0b', '123456', '$2y$12$POjKJpXZVXCr4UFMXUXjte734QfJrHUHAPUa3BBwXYr1ptJ0mf4GW', 'user1@supershop.com', 'User123456', 'User123456', 'ROLE_CUSTOMER');
 
 
 drop table if exists orders cascade;

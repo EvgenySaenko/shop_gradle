@@ -15,7 +15,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: razumserdca777@gmail.com
-    password: 2904qwerty1984
+    password: XoyHUn8q4bMkpQUZXPbi
     protocol: smtp
     default-encoding: UTF-8
     properties:
@@ -50,3 +50,9 @@ files:
 documents:
   service:
     url: "localhost:10210/documents"
+
+supershop:
+  name: Evgeny
+  city: Rostov-on-Don
+  phone: 89997772233
+  email: evg@mail.ru
